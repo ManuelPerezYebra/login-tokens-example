@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { loginRequest } from '../../utils/auth/auth.api';
 
 const Login = () => {
+	const [userData, setUserData] = useState();
+	console.log(userData);
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={event => handleSubmit(event, setUserData)}>
 			<div>
 				<label htmlFor='username'>Email</label>
 				<input type='text' name='email' id='email' />
@@ -16,14 +19,14 @@ const Login = () => {
 	);
 };
 
-const handleSubmit = async event => {
+const handleSubmit = async (event, setUserData) => {
 	event.preventDefault();
 	const { email, password } = event.target;
 	const loginData = {
 		email: email.value,
 		password: password.value
 	};
-	const serveMessage = await loginRequest(loginData);
+	const serveMessage = await loginRequest(loginData, setUserData);
 	console.log(serveMessage);
 };
 export default Login;
