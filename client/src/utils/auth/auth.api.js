@@ -1,4 +1,5 @@
 import { HEADERS } from '../../constants/headers';
+import { METHODS } from '../../constants/methos';
 import { URLS } from '../../constants/urls';
 
 const registerRequest = async user => {
@@ -36,5 +37,22 @@ const loginRequest = async (user, setUserData) => {
 		throw error;
 	}
 };
+const verifyTokenRequest = async () => {
+	try {
+		const response = await fetch(URLS.AUTH_VERIFY_TOKEN, {
+			method: METHODS.GET,
+			headers: HEADERS,
+			credentials: 'include'
+		});
+		if (!response.ok) {
+			throw new Error(`Failed response: ${response.status}`);
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Invalid Token');
+		return false;
+	}
+};
 
-export { loginRequest, registerRequest };
+export { loginRequest, registerRequest, verifyTokenRequest };
